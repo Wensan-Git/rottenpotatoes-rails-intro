@@ -9,11 +9,26 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
     if params[:ratings]
-      @ratings_to_show = params[:ratings].keys
+      @ratings_to_show = params[:ratings]
     else
-      @ratings_to_show = @all_ratings
+      @new = {}
+      for rating in @all_ratings
+        @new[rating] = 1
+      end
+      @ratings_to_show = @new
     end
-    @movies = Movie.with_ratings(@ratings_to_show)
+    @movies = Movie.with_ratings(@ratings_to_show.keys)
+    if params[:sortings]
+      @movies = @movies.order(params[:sortings]) # is this how it's done?
+    end
+    @hilite = {}
+    if params[:sortings] == "title"
+      puts "inside 22"
+      @hilite['title'] = "hilite bg-warning"
+    elsif params[:sortings] == "release_date"
+      puts "inside 25"
+      @hilite['release_date'] = "hilite bg-warning"
+    end
   end
 
   def new

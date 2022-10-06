@@ -17,9 +17,9 @@
 
   <thead>
     <tr>
-      <th>Movie Title</th>
+      <th class="<%= @hilite['title']%>"> <%= link_to 'Movie Title', movies_path(:sortings => 'title', :ratings => @ratings_to_show) %></th>
       <th>Rating</th>
-      <th>Release Date</th>
+      <th class="<%= @hilite['release_date']%>"> <%= link_to 'Release Date', movies_path(:sortings => 'release_date', :ratings => @ratings_to_show) %></th>
       <th>More Info</th>
     </tr>
   </thead>
