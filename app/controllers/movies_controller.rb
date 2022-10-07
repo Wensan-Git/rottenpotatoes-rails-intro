@@ -7,6 +7,11 @@ class MoviesController < ApplicationController
   end
 
   def index
+    if params[:ratings] == nil and params[:sortings] == nil
+      params[:ratings] = session[:ratings]
+      params[:sortings] = session[:sortings]
+    end
+    session.clear
     @all_ratings = Movie.all_ratings
     if params[:ratings]
       @ratings_to_show = params[:ratings]
@@ -21,14 +26,16 @@ class MoviesController < ApplicationController
     if params[:sortings]
       @movies = @movies.order(params[:sortings]) # is this how it's done?
     end
+    session[:ratings] = params[:ratings]
+    session[:sortings] = params[:sortings]
     @hilite = {}
     if params[:sortings] == "title"
-      puts "inside 22"
       @hilite['title'] = "hilite bg-warning"
     elsif params[:sortings] == "release_date"
-      puts "inside 25"
       @hilite['release_date'] = "hilite bg-warning"
     end
+    
+
   end
 
   def new
